@@ -1,24 +1,36 @@
-var canvas
-var ctx
+let canvas
+let ctx
 
-var W
-var H
-var min_size
-var max_size
+let min_size
+let max_size
 
-var g = 1;
+const g = 9.80665;
+const time = 0.2;
+let x0;
+let y0;
 
-var l1
-var l2
-var m1
-var m2
-var a1
-var a2
+let l1 = 100;
+let l2 = 100;
+let m1 = 0.1;
+let m2 = 0.1;
+let theta1 = 1 * (Math.PI) / 2;
+let theta2 = 3 * (Math.PI) / 2;
+let r0 = 20;
+let r1 = 20;
+let r2 = 20;
 
-var x1
-var y1
-var x2
-var y2
+
+
+let mu = 1 + m1 / m2;
+let theta1_d2 = 0;
+let theta2_d2 = 0;
+let theta1_d = 0;
+let theta2_d = 0;
+
+let x1
+let y1
+let x2
+let y2
 
 window.wallpaperPropertyListener = {
   applyUserProperties: function(properties) {
@@ -39,55 +51,48 @@ window.wallpaperPropertyListener = {
       m2 = properties.mass2.value;
     }
 
+    mu = 1 + m1 / m2;
+
   }
 }
 
-var red = 0;
-var yellow = 0;
-var green = 0;
-var cyan = 0;
-var blue = 0;
-var magenta = 0;
-
 function run() {
-  var x = W / 2;
-  var y = H / 2;
+  theta1_d2 = (g * (Math.sin(theta2) * Math.cos(theta1 - theta2) - mu * Math.sin(theta1)) - (l2 * theta2_d * theta2_d + l1 * theta1_d * theta1_d * Math.cos(theta1 - theta2)) * Math.sin(theta1 - theta2)) / (l1 * (mu - Math.cos(theta1 - theta2) * Math.cos(theta1 - theta2)));
+  theta2_d2 = (mu * g * (Math.sin(theta1) * Math.cos(theta1 - theta2) - Math.sin(theta2)) + (mu * l1 * theta1_d * theta1_d + l2 * theta2_d * theta2_d * Math.cos(theta1 - theta2)) * Math.sin(theta1 - theta2)) / (l2 * (mu - Math.cos(theta1 - theta2) * Math.cos(theta1 - theta2)));
+  theta1_d += theta1_d2 * time;
+  theta2_d += theta2_d2 * time;
+  theta1 += theta1_d * time;
+  theta2 += theta2_d * time;
 
+  x1 = x0 + l1 * Math.sin(theta1);
+  y1 = y0 + l1 * Math.cos(theta1);
+  x2 = x0 + l1 * Math.sin(theta1) + l2 * Math.sin(theta2);
+  y2 = y0 + l1 * Math.cos(theta1) + l2 * Math.cos(theta2);
 
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  circle(x, y, red, '#FF0000');
-  circle(x, y, yellow, '#FFFF00');
-  circle(x, y, green, '#00FF00');
-  circle(x, y, cyan, '#00FFFF');
-  circle(x, y, blue, '#0000FF');
-  circle(x, y, magenta, '#FF00FF');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  red = (red + 1) % (min_size/2);
-  yellow = (yellow + 2) % (min_size/2);
-  green = (green + 3) % (min_size/2);
-  cyan = (cyan + 5) % (min_size/2);
-  blue = (blue + 7) % (min_size/2);
-  magenta = (magenta + 11) % (min_size/2);
-
-  sleep(40);
+  line(x0, y0, x1, y1);
+  line(x1, y1, x2, y2);
+  circle(x0, y0, r0);
+  circle(x1, y1, r1);
+  circle(x2, y2, r2);
 
   window.requestAnimationFrame(run);
 }
 
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
-
-function circle(x, y, r, color) {
+function circle(x, y, r) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI, false);
-  ctx.lineWidth = 10;
-  ctx.strokeStyle = color;
-  //ctx.closePath();
+  ctx.fillStyle = "#808080";
+  ctx.fill();
+}
+
+function line(x1, y1, x2, y2) {
+  ctx.beginPath();
+  ctx.strokeStyle = "#FFFFFF";
+  ctx.lineWidth = 8;
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
   ctx.stroke();
 }
 
@@ -97,10 +102,8 @@ window.onload = function() {
   ctx = canvas.getContext("2d");
   canvas.width = canvas.scrollWidth;
   canvas.height = canvas.scrollHeight;
-  W = canvas.width;
-  H = canvas.height;
-  min_size = Math.min(W,H);
-  max_size = Math.max(W,H);
+  x0 = canvas.width/2;
+  y0 = canvas.height/2;
   window.requestAnimationFrame(run);
 }
 
@@ -108,8 +111,6 @@ window.onload = function() {
 window.onresize = function() {
   canvas.width = canvas.scrollWidth;
   canvas.height = canvas.scrollHeight;
-  W = canvas.width;
-  H = canvas.height;
-  min_size = Math.min(W,H);
-  max_size = Math.max(W,H);
+  x0 = canvas.width/2;
+  y0 = canvas.height/2;
 }

@@ -27,7 +27,7 @@
         "min": 0,
         "text": "Mass 1",
         "type": "slider",
-        "value": 100,
+        "value": 10,
         "editable": true
       },
 
@@ -36,7 +36,7 @@
         "min": 0,
         "text": "Mass 2",
         "type": "slider",
-        "value": 100,
+        "value": 10,
         "editable": true
       }
 
