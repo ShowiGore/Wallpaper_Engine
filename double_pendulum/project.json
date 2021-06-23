@@ -1,0 +1,48 @@
+{
+  "file": "index.html",
+
+  "general": {
+    "properties": {
+
+      "length1": {
+        "max": 200,
+        "min": 0,
+        "text": "Length 1",
+        "type": "slider",
+        "value": 100,
+        "editable": true
+      },
+
+      "length2": {
+        "max": 200,
+        "min": 0,
+        "text": "Length 2",
+        "type": "slider",
+        "value": 100,
+        "editable": true
+      },
+
+      "mass1": {
+        "max": 200,
+        "min": 0,
+        "text": "Mass 1",
+        "type": "slider",
+        "value": 100,
+        "editable": true
+      },
+
+      "mass2": {
+        "max": 200,
+        "min": 0,
+        "text": "Mass 2",
+        "type": "slider",
+        "value": 100,
+        "editable": true
+      }
+
+    }
+  },
+
+  "title": "Double Pendulum",
+  "type": "web"
+}
