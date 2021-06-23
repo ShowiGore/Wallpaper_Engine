@@ -20,7 +20,6 @@ var y1
 var x2
 var y2
 
-
 window.wallpaperPropertyListener = {
   applyUserProperties: function(properties) {
 
