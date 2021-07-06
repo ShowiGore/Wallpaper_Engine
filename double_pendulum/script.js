@@ -1,64 +1,90 @@
 let canvas
 let ctx;
 
+const g = 9.80665;
+const time = 1/30;
+
 let min_size;
 let max_size;
 
-const g = 9.80665;
-const time = 0.1;
-let x0;
-let y0;
+let l_min
+let l_max
+let m_min
+let m_max
+let theta_min
+let theta_max
 
-let l_min = 50;
-let l_max = 100;
-let m_min = 0.1;
-let m_max = 0.4;
-let theta_min = 0.5 * (Math.PI);
-let theta_max = 1.5 * (Math.PI);
+let l1
+let l2
+let m1
+let m2
+let theta1
+let theta2
+let mu
 
-let l1 = Math.random() * (l_max - l_min) + l_min;
-let l2 = Math.random() * (l_max - l_min) + l_min;
-let m1 = Math.random() * (m_max - m_min) + m_min;
-let m2 = Math.random() * (m_max - m_min) + m_min;
-let theta1 = Math.random() * (theta_max - theta_min) + theta_min;
-let theta2 = Math.random() * (theta_max - theta_min) + theta_min;
+let theta1_d2 = 0;
+let theta2_d2 = 0;
+let theta1_d = 0;
+let theta2_d = 0;
 
 let r0;
 let r1;
 let r2;
 let s1;
 let s2;
-let x1
-let y1
-let x2
-let y2
 
-let mu = 1 + m1 / m2;
-let theta1_d2 = 0;
-let theta2_d2 = 0;
-let theta1_d = 0;
-let theta2_d = 0;
+let x0;
+let y0;
+let x1;
+let y1;
+let x2;
+let y2;
+
+/*l_min = 2;
+l_max = 4;
+m_min = 0.2;
+m_max = 0.4;
+theta_min = 0.5 * Math.PI;
+theta_max = 1.5 * Math.PI;
+
+l2 = Math.random() * (l_max - l_min) + l_min;
+m1 = Math.random() * (m_max - m_min) + m_min;
+l1 = Math.random() * (l_max - l_min) + l_min;
+m2 = Math.random() * (m_max - m_min) + m_min;
+theta1 = Math.random() * (theta_max - theta_min) + theta_min;
+theta2 = Math.random() * (theta_max - theta_min) + theta_min;
+mu = 1 + m1 / m2;*/
 
 window.wallpaperPropertyListener = {
   applyUserProperties: function(properties) {
 
-    if (properties.length1) {
-      l1 = properties.length1.value;
+    if (properties.length_min) {
+      l_min = properties.length_min.value;
     }
 
-    if (properties.length2) {
-      l2 = properties.length2.value;
+    if (properties.length_max) {
+      l_max = properties.length_max.value;
     }
 
-    if (properties.mass1) {
-      m1 = properties.mass1.value;
+    if (properties.mass_min) {
+      m_min = properties.mass_min.value;
     }
 
-    if (properties.mass2) {
-      m2 = properties.mass2.value;
+    if (properties.mass_max) {
+      m_max = properties.mass_max.value;
     }
 
     mu = 1 + m1 / m2;
+
+    if (properties.theta_min) {
+      theta_min = properties.theta_min.value;
+    }
+
+    if (properties.theta_max) {
+      theta_max = properties.theta_max.value;
+    }
+
+    setup();
 
   }
 }
@@ -78,8 +104,8 @@ function run() {
   theta2_d2 = (mu * g * (st1 * ct1Mt2 - st2) + (mu * l1Mt1_ds + l2Mt2_ds * ct1Mt2) * st1Mt2) / (l2 * mMct1mt2Mct1mt2);
   theta1_d += theta1_d2 * time;
   theta2_d += theta2_d2 * time;
-  theta1 += theta1_d * time;
-  theta2 += theta2_d * time;
+  theta1 += (theta1_d * time) % (2 * Math.PI);
+  theta2 += (theta2_d * time) % (2 * Math.PI);
 
   x1 = x0 + s1 * Math.sin(theta1);
   y1 = y0 + s1 * Math.cos(theta1);
@@ -127,28 +153,35 @@ function setup() {
   s_min = min_size * 1 / 6 - r_max / 2;
   s_max = min_size * 1 / 4 - r_max / 2;
 
-  a = (r_min - r_max) / (m_min - m_max);
-  b = (((-m_max) * r_min + m_min * r_max) / (m_min - m_max));
   r0 = (r_min + r_max) / 2;
-  r1 = a * m1 + b;
-  r2 = a * m2 + b;
 
-  a = (s_min - s_max) / (l_min - l_max);
-  b = (((-l_max) * s_min + l_min * s_max) / (l_min - l_max));
-  s1 = a * l1 + b;
-  s2 = a * l2 + b;
+  if (m_min == m_max) {
+    r1 = r2 = r0;
+  } else {
+    a = (r_min - r_max) / (m_min - m_max);
+    b = (((-m_max) * r_min + m_min * r_max) / (m_min - m_max));
+    r1 = a * m1 + b;
+    r2 = a * m2 + b;
+  }
+
+  if (l_min == l_max) {
+    s1 = s2 = (s_min + s_max) / 2;
+  } else {
+    a = (s_min - s_max) / (l_min - l_max);
+    b = (-l_max * s_min + l_min * s_max) / (l_min - l_max);
+    s1 = a * l1 + b;
+    s2 = a * l2 + b;
+  }
 
   x0 = canvas.width / 2;
   y0 = canvas.height / 2;
 }
 
-//canvas load
 window.onload = function() {
   setup();
   window.requestAnimationFrame(run);
 }
 
-//canvas resize
 window.onresize = function() {
   setup();
 }

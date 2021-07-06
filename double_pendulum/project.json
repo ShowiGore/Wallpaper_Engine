@@ -4,39 +4,57 @@
   "general": {
     "properties": {
 
-      "length1": {
-        "max": 200,
-        "min": 0,
-        "text": "Length 1",
+      "length_min": {
+        "max": 8,
+        "min": 1,
+        "text": "Minimum Length",
         "type": "slider",
-        "value": 100,
+        "value": 2,
         "editable": true
       },
 
-      "length2": {
-        "max": 200,
-        "min": 0,
-        "text": "Length 2",
+      "length_max": {
+        "max": 8,
+        "min": 1,
+        "text": "Maximum Length",
         "type": "slider",
-        "value": 100,
+        "value": 4,
         "editable": true
       },
 
-      "mass1": {
-        "max": 200,
-        "min": 0,
-        "text": "Mass 1",
+      "mass_min": {
+        "max": 0.8,
+        "min": 0.1,
+        "text": "Minimum Mass",
         "type": "slider",
-        "value": 10,
+        "value": 0.2,
         "editable": true
       },
 
-      "mass2": {
-        "max": 200,
-        "min": 0,
-        "text": "Mass 2",
+      "mass_max": {
+        "max": 0.8,
+        "min": 0.1,
+        "text": "Maximum angle",
         "type": "slider",
-        "value": 10,
+        "value": 0.4,
+        "editable": true
+      },
+
+      "theta_min": {
+        "max": 2,
+        "min": 0,
+        "text": "Minimum angle",
+        "type": "slider",
+        "value": 0.5,
+        "editable": true
+      },
+
+      "theta_max": {
+        "max": 2,
+        "min": 0,
+        "text": "Maximum angle",
+        "type": "slider",
+        "value": 1.5,
         "editable": true
       }
 
