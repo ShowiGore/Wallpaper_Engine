@@ -2,7 +2,7 @@ let canvas
 let ctx;
 
 const g = 9.80665;
-const time = 1/30;
+const time = 1 / 30;
 
 let min_size;
 let max_size;
@@ -40,7 +40,7 @@ let y1;
 let x2;
 let y2;
 
-/*l_min = 2;
+l_min = 2;
 l_max = 4;
 m_min = 0.2;
 m_max = 0.4;
@@ -51,9 +51,9 @@ l2 = Math.random() * (l_max - l_min) + l_min;
 m1 = Math.random() * (m_max - m_min) + m_min;
 l1 = Math.random() * (l_max - l_min) + l_min;
 m2 = Math.random() * (m_max - m_min) + m_min;
+mu = 1 + m1 / m2;
 theta1 = Math.random() * (theta_max - theta_min) + theta_min;
 theta2 = Math.random() * (theta_max - theta_min) + theta_min;
-mu = 1 + m1 / m2;*/
 
 window.wallpaperPropertyListener = {
   applyUserProperties: function(properties) {
