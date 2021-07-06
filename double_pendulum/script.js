@@ -4,6 +4,12 @@ let ctx;
 const g = 9.80665;
 const time = 1 / 30;
 
+var wallpaperSettings = {
+    fps: 0
+};
+var last = performance.now() / 1000;
+var fpsThreshold = 0;
+
 let min_size;
 let max_size;
 
@@ -56,6 +62,13 @@ theta1 = Math.random() * (theta_max - theta_min) + theta_min;
 theta2 = Math.random() * (theta_max - theta_min) + theta_min;
 
 window.wallpaperPropertyListener = {
+
+  applyGeneralProperties: function(properties) {
+      if (properties.fps) {
+          wallpaperSettings.fps = properties.fps;
+      }
+  },
+
   applyUserProperties: function(properties) {
 
     if (properties.length_min) {
@@ -77,11 +90,11 @@ window.wallpaperPropertyListener = {
     mu = 1 + m1 / m2;
 
     if (properties.theta_min) {
-      theta_min = properties.theta_min.value;
+      theta_min = properties.theta_min.value * Math.PI;
     }
 
     if (properties.theta_max) {
-      theta_max = properties.theta_max.value;
+      theta_max = properties.theta_max.value * Math.PI;
     }
 
     setup();
@@ -90,6 +103,20 @@ window.wallpaperPropertyListener = {
 }
 
 function run() {
+  window.requestAnimationFrame(run);
+
+    var now = performance.now() / 1000;
+    var dt = Math.min(now - last, 1);
+    last = now;
+
+    if (wallpaperSettings.fps > 0) {
+        fpsThreshold += dt;
+        if (fpsThreshold < 1.0 / wallpaperSettings.fps) {
+            return;
+        }
+        fpsThreshold -= 1.0 / wallpaperSettings.fps;
+    }
+
   let st1 = Math.sin(theta1);
   let st2 = Math.sin(theta2);
   let ct1Mt2 = Math.cos(theta1 - theta2)
@@ -119,8 +146,6 @@ function run() {
   circle(x0, y0, r0);
   circle(x1, y1, r1);
   circle(x2, y2, r2);
-
-  window.requestAnimationFrame(run);
 }
 
 function circle(x, y, r) {
