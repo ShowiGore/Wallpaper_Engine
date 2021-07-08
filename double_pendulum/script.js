@@ -53,13 +53,7 @@ m_max = 0.4;
 theta_min = 0.5 * Math.PI;
 theta_max = 1.5 * Math.PI;
 
-l2 = Math.random() * (l_max - l_min) + l_min;
-m1 = Math.random() * (m_max - m_min) + m_min;
-l1 = Math.random() * (l_max - l_min) + l_min;
-m2 = Math.random() * (m_max - m_min) + m_min;
-mu = 1 + m1 / m2;
-theta1 = Math.random() * (theta_max - theta_min) + theta_min;
-theta2 = Math.random() * (theta_max - theta_min) + theta_min;
+setup_simulation();
 
 window.wallpaperPropertyListener = {
 
@@ -97,9 +91,20 @@ window.wallpaperPropertyListener = {
       theta_max = properties.theta_max.value * Math.PI;
     }
 
+    setup_simulation();
     setup();
 
   }
+}
+
+function setup_simulation() {
+  l2 = Math.random() * (l_max - l_min) + l_min;
+  m1 = Math.random() * (m_max - m_min) + m_min;
+  l1 = Math.random() * (l_max - l_min) + l_min;
+  m2 = Math.random() * (m_max - m_min) + m_min;
+  mu = 1 + m1 / m2;
+  theta1 = Math.random() * (theta_max - theta_min) + theta_min;
+  theta2 = Math.random() * (theta_max - theta_min) + theta_min;
 }
 
 function run() {
