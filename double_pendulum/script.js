@@ -53,7 +53,7 @@ m_max = 0.4;
 theta_min = 0.5 * Math.PI;
 theta_max = 1.5 * Math.PI;
 
-setup_simulation();
+setup_random();
 
 window.wallpaperPropertyListener = {
 
@@ -91,13 +91,13 @@ window.wallpaperPropertyListener = {
       theta_max = properties.theta_max.value * Math.PI;
     }
 
-    setup_simulation();
+    setup_random();
     setup();
 
   }
 }
 
-function setup_simulation() {
+function setup_random() {
   l2 = Math.random() * (l_max - l_min) + l_min;
   m1 = Math.random() * (m_max - m_min) + m_min;
   l1 = Math.random() * (l_max - l_min) + l_min;
