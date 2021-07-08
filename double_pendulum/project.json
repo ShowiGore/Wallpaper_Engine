@@ -1,11 +1,12 @@
 {
+	"workshopid" : 2539024609,
 	"contentrating" : "Everyone",
 	"file" : "index.html",
-	"general" : 
+	"general" :
 	{
-		"properties" : 
+		"properties" :
 		{
-			"length_max" : 
+			"length_max" :
 			{
 				"editable" : true,
 				"fraction" : true,
@@ -17,7 +18,7 @@
 				"type" : "slider",
 				"value" : 4
 			},
-			"length_min" : 
+			"length_min" :
 			{
 				"editable" : true,
 				"fraction" : true,
@@ -29,7 +30,7 @@
 				"type" : "slider",
 				"value" : 2
 			},
-			"mass_max" : 
+			"mass_max" :
 			{
 				"editable" : true,
 				"fraction" : true,
@@ -41,7 +42,7 @@
 				"type" : "slider",
 				"value" : 0.40000000000000002
 			},
-			"mass_min" : 
+			"mass_min" :
 			{
 				"editable" : true,
 				"fraction" : true,
@@ -53,14 +54,14 @@
 				"type" : "slider",
 				"value" : 0.20000000000000001
 			},
-			"schemecolor" : 
+			"schemecolor" :
 			{
 				"order" : 0,
 				"text" : "ui_browse_properties_scheme_color",
 				"type" : "color",
 				"value" : "0 0 0"
 			},
-			"theta_max" : 
+			"theta_max" :
 			{
 				"editable" : true,
 				"fraction" : true,
@@ -72,7 +73,7 @@
 				"type" : "slider",
 				"value" : 1.5
 			},
-			"theta_min" : 
+			"theta_min" :
 			{
 				"editable" : true,
 				"fraction" : true,
