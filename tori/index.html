@@ -1,0 +1,53 @@
+<html>
+
+<head>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <script type="module">
+    import * as THREE from 'https://cdn.skypack.dev/pin/three@v0.130.1-bsY6rEPcA1ZYyZeKdbHd/mode=imports/optimized/three.js';
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const radius = 10;
+    const tube = 4;
+    const radialSegments = 9;
+    const tubularSegments = 45;
+
+    const geometry = new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments);
+    const material = new THREE.MeshBasicMaterial({
+      color: 0x402080,
+      wireframe: true
+    });
+    const torus = new THREE.Mesh(geometry, material);
+    scene.add(torus);
+
+
+    camera.position.z = 28;
+
+    const animate = function() {
+      requestAnimationFrame(animate);
+
+      torus.rotation.x += 0.01;
+      torus.rotation.y += 0.02;
+      torus.rotation.z += 0.00;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+  </script>
+</body>
+
+</html>
