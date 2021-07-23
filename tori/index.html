@@ -17,12 +17,17 @@
     //const camera = new THREE.PerspectiveCamera(135, window.innerWidth / window.innerHeight, 1, 1000);
     const camera = new THREE.OrthographicCamera( window.innerWidth/-2, window.innerWidth/2, window.innerHeight/2, window.innerHeight/-2, 0,  window.innerWidth*8 );
     const renderer = new THREE.WebGLRenderer();
+    renderer.shadowMap.enabled = true;
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    /*const light = new THREE.PointLight( );
-    light.position.set( 0,0,0 );
-    scene.add( light );*/
+    const ambientLight = new THREE.AmbientLight( 0x404040 );
+    scene.add( ambientLight );
+
+    const spotLight = new THREE.PointLight( 0x808080);
+    spotLight.position.set( 0, 0, 0 );
+    spotLight.castShadow = true;
+    scene.add( spotLight );
 
     const tube =  window.innerWidth/32;
     const radius =  window.innerWidth/2 - tube;
@@ -30,24 +35,37 @@
     const tubularSegments = 45;
 
     const geometry1 = new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments);
-    const material1 = new THREE.MeshBasicMaterial( {color: 0x800000, wireframe: true} );
+    const material1 = new THREE.MeshLambertMaterial( {color: 0xF75F1C, /*wireframe: true*/} );
     const torus1 = new THREE.Mesh(geometry1, material1);
+    torus1.receiveShadow = true;
+    torus1.castShadow = true;
     scene.add(torus1);
 
     const geometry2 = new THREE.TorusGeometry(radius-tube*4, tube, radialSegments, tubularSegments);
-    const material2 = new THREE.MeshBasicMaterial( {color: 0x008000, wireframe: true} );
+    const material2 = new THREE.MeshLambertMaterial( {color: 0xFF9A00, /*wireframe: true*/} );
     const torus2 = new THREE.Mesh(geometry2, material2);
+    torus2.receiveShadow = true;
+    torus2.castShadow = true;
     scene.add(torus2);
 
     const geometry3 = new THREE.TorusGeometry(radius-tube*8, tube, radialSegments, tubularSegments);
-    const material3 = new THREE.MeshBasicMaterial( {color: 0x000080, wireframe: true} );
+    const material3 = new THREE.MeshLambertMaterial( {color: 0x881EE4, /*wireframe: true*/} );
     const torus3 = new THREE.Mesh(geometry3, material3);
+    torus3.receiveShadow = true;
+    torus3.castShadow = true;
     scene.add(torus3);
 
     const geometry4 = new THREE.TorusGeometry(radius-tube*12, tube, radialSegments, tubularSegments);
-    const material4 = new THREE.MeshBasicMaterial( {color: 0x808080, wireframe: true} );
+    const material4 = new THREE.MeshLambertMaterial( {color: 0x85E21F, /*wireframe: true*/} );
     const torus4 = new THREE.Mesh(geometry4, material4);
+    torus4.receiveShadow = true;
+    torus4.castShadow = true;
     scene.add(torus4);
+
+    /*const geometry = new THREE.SphereGeometry( radius-tube*16, 16, 16 );
+    const material = new THREE.MeshLambertMaterial( {emissive: 0x808080, wireframe: true} );
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);*/
 
     camera.position.z =  window.innerWidth*2;
 
