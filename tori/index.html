@@ -13,13 +13,27 @@
   <script type="module">
     import * as THREE from 'https://cdn.skypack.dev/pin/three@v0.130.1-bsY6rEPcA1ZYyZeKdbHd/mode=imports/optimized/three.js';
 
+    const resize = function() {
+      min = Math.min(window.innerWidth, window.innerHeight);
+      max = Math.max(window.innerWidth, window.innerHeight);
+      camera.left = window.innerWidth/-2;
+      camera.right = window.innerWidth/2;
+      camera.top = window.innerHeight/2;
+      camera.bottom = window.innerHeight/-2;
+      camera.far = 2*max;
+      camera.updateProjectionMatrix();
+      renderer.setSize( window.innerWidth, window.innerHeight);
+    }
+
+    var min;
+    var max;
     const scene = new THREE.Scene();
-    //const camera = new THREE.PerspectiveCamera(135, window.innerWidth / window.innerHeight, 1, 1000);
-    const camera = new THREE.OrthographicCamera( window.innerWidth/-2, window.innerWidth/2, window.innerHeight/2, window.innerHeight/-2, 0,  window.innerWidth*16 );
+    const camera = new THREE.OrthographicCamera();
+    camera.near = 0;
     const renderer = new THREE.WebGLRenderer();
     renderer.shadowMap.enabled = true;
-    renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+    resize();
 
     const ambientLight = new THREE.AmbientLight( 0x202020 );
     scene.add( ambientLight );
@@ -67,13 +81,14 @@
     const core = new THREE.Mesh(geometry_core, material_core);
     scene.add(core);
 
-    const geometry = new THREE.SphereGeometry( radius*1.5, 64, 64 );
-    const material = new THREE.MeshLambertMaterial({color: 0x808080, side: THREE.BackSide/*wireframe: true*/} );
+    const geometry = new THREE.SphereGeometry( max/2, 64, 64 );
+
+    const material = new THREE.MeshLambertMaterial({color: 0x808080, side: THREE.BackSide} );
     const sphere = new THREE.Mesh(geometry, material);
     sphere.receiveShadow = true;
     scene.add(sphere);
 
-    camera.position.z =  window.innerWidth*2;
+    camera.position.z = max;
 
     const animate = function() {
       requestAnimationFrame(animate);
@@ -97,14 +112,7 @@
     }
 
     window.onresize = function() {
-
-      //camera.aspect = window.innerWidth / window.innerHeight;
-      camera.left = window.innerWidth/-2;
-      camera.right = window.innerWidth/2;
-      camera.top = window.innerHeight/2;
-      camera.bottom = window.innerHeight/-2;
-      camera.updateProjectionMatrix();
-      renderer.setSize( window.innerWidth, window.innerHeight );
+      resize();
     }
   </script>
 </body>
